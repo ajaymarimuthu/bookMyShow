@@ -1,5 +1,6 @@
 
 import './App.css'
+import ProtectedRoute from './components/ProtectedRoute';
 import Home from './pages/Home'
 import Login from './pages/Login'
 import Register from './pages/Register'
@@ -14,9 +15,9 @@ function App() {
       <BrowserRouter>
 
         <Routes>
-          <Route path='/' element={<Home />} />
+          <Route path='/home' element={<ProtectedRoute> <Home/> </ProtectedRoute>} />
           <Route path='/login' element={<Login />} />
-          <Route path='/home' element={<Home />} />
+ 
           <Route path='/register' element={<Register />} />
         </Routes>
 

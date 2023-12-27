@@ -39,4 +39,25 @@ export const LoginUser = async (payload)=>{
 }
 
 
+export const GetCurrentUser= async()=>{
+    try {
+
+        console.log("inseide GetCurrentUser of the front end side ");
+
+        const response=await axiosInstance.get('http://localhost:8002/api/users/get-current-user')
+        console.log("response-----",response);
+        console.log("response in users file",response.data);
+        return response.data;
+        
+
+    } catch (error) {
+
+        console.log("inseide error of the GetCurrentUser of the front end side ");
+
+
+        return error;
+        
+    }
+}
+
 

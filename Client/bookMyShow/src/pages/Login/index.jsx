@@ -16,6 +16,13 @@ const Login = () => {
 
       if(response.success){
 
+        console.log("response token in frontend",response.data);
+
+        localStorage.setItem('token',response.data)
+
+       
+
+
         navigate("/home");
  
         message.success(response.message);

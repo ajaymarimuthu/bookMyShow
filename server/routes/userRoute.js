@@ -1,6 +1,10 @@
 const router = require("express").Router();
 const bcrypt = require("bcryptjs");
 const User = require("../models/userModel");
+const jwt=require("jsonwebtoken");
+const authMiddleware = require("../middlewares/authMiddleware");
+
+
 
 //registering a user
 router.post("/register", async (req, res) => {
@@ -56,13 +60,60 @@ router.post("/login", async (req, res) => {
       });
     }
 
+    const token=jwt.sign({userId: user._id},process.env.jwt_secret_key,{expiresIn:"1d"})
+
+    console.log("toekn",token);
+
+
     res.send({
       success: true,
       message: "User Logged In",
+      data:token
     });
+
+
   } catch (error) {
     console.log(error);
   }
 });
+
+
+
+//Get user details by id (Protected Routing)
+
+// %%%%TO make this protected we have to create a middleware 
+
+router.get("/get-current-user", authMiddleware , async(req,res)=>{
+
+  console.log("inside get current user backend");
+
+  try {
+
+    const user = await User.findById(req.body.userId).select('-password');
+
+    console.log(user);
+
+    res.send({
+      success:true,
+      message:"User details fetched successfully",
+      data:user
+    })
+    
+  } 
+  catch (error) {
+
+    res.send({
+      success:false,
+      message:error.message,
+      
+    })
+    
+  }
+
+})
+
+
+
+
 
 module.exports = router;
